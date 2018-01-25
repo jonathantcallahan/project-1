@@ -5,17 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Hello, world</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            font-family: arial;
+        }
+
+        .user-input {
+            width: 40px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, world!</h1>
 
-<div>This is Jonathan's test</div>
+    <div id="sentence-container">
+        <h1>My name is 
+            <input type="text" id="name-input">. I was born on 
+            <input class="user-input" type="text" id="dob-input-month" placeholder="MM">
+            <input class="user-input" type="text" id="dob-input-day" placeholder="DD">
+            <input class="user-input" type="text" id="dob-input-year" placeholder="YYYY">.
+        </h1>
+    </div>
 
-<div>This is a test</div>
 
-    <h1>Jonathan</h1>
-    <h2>Second edit</h2>
-    <h2>Third Edit</h2>
 
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="script.js"></script>
 </body>
 </html>
