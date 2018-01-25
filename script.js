@@ -23,7 +23,7 @@ var config = {
 document.onkeydown = function(event){
     if(event.which === 13){
         console.log("test")
-        userName = $("#name-input").val()
+        userName = $("#name-input").val().trim()
         var userDobDay = $("#dob-input-day").val()
         var userDobMonth = $("#dob-input-month").val()
         var userDobYear = $("#dob-input-year").val()
@@ -54,6 +54,21 @@ document.onkeydown = function(event){
             p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
             $("#results-container").html(p)
         })
+        
+        $.ajax({
+            url: "https://wordsapiv1.p.mashape.com/words/" + userName,
+            data: { "X-Mashape-Key": "KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE" },
+            method: "GET",
+            beforeSend: function (xhr) { xhr.setRequestHeader('X-Mashape-Key', 'KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE') }
+        }).done(function (response) {
+            console.log(response);
+            var nameObj = response;
+            var definition = nameObj.results[0]["definition"];
+            console.log(definition);
+        }
+            );
+    
+    
     }
 
 }
