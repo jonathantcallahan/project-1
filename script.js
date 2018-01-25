@@ -25,7 +25,12 @@ document.onkeydown = function(event){
         var userDobDay = $("#dob-input-day").val()
         var userDobMonth = $("#dob-input-month").val()
         var userDobYear = $("#dob-input-year").val()
-        
+        $.ajaxPrefilter(function (options) {
+            if (options.crossDomain && jQuery.support.cors) {
+                options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+            }
+        });
+
         userStorage.push({
             name: userName,
             dobDay: userDobDay,
@@ -34,11 +39,14 @@ document.onkeydown = function(event){
         })
 
         var queryUrl = "http://history.muffinlabs.com/date/" + userDobMonth + "/" + userDobDay
+        console.log(queryUrl)
+        
         $.ajax({
             url: queryUrl,
             method: "GET"
         }).done(function(response){
-            console.log(response)
+            var returnInfo = JSON.parse(response)
+            console.log(returnInfo.data.Events[0].text)
         })
     }
 
