@@ -9,6 +9,7 @@ var config = {
 
   firebase.initializeApp(config);
   var userStorage = firebase.database().ref("user-storage")
+  var userName;
 
   userStorage.on("child_added",function(snapshot){
         console.log(snapshot.val())
@@ -18,10 +19,11 @@ var config = {
     }
 )
 
+
 document.onkeydown = function(event){
     if(event.which === 13){
         console.log("test")
-        var userName = $("#name-input").val()
+        userName = $("#name-input").val()
         var userDobDay = $("#dob-input-day").val()
         var userDobMonth = $("#dob-input-month").val()
         var userDobYear = $("#dob-input-year").val()
@@ -46,7 +48,11 @@ document.onkeydown = function(event){
             method: "GET"
         }).done(function(response){
             var returnInfo = JSON.parse(response)
-            console.log(returnInfo.data.Events[0].text)
+            var text = returnInfo.data.Events[0].text;
+            var yearOccur = returnInfo.data.Events[0].year;
+            var p = $("<p>")
+            p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
+            $("#results-container").html(p)
         })
     }
 
