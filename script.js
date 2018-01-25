@@ -22,6 +22,7 @@ var config = {
 
 document.onkeydown = function(event){
     if(event.which === 13){
+        $("#results-container").empty()
         console.log("test")
         userName = $("#name-input").val().trim()
         var userDobDay = $("#dob-input-day").val()
@@ -52,7 +53,7 @@ document.onkeydown = function(event){
             var yearOccur = returnInfo.data.Events[0].year;
             var p = $("<p>")
             p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
-            $("#results-container").html(p)
+            $("#results-container").append(p)
         })
         
         $.ajax({
@@ -65,9 +66,10 @@ document.onkeydown = function(event){
             var nameObj = response;
             var definition = nameObj.results[0]["definition"];
             console.log(definition);
-        }
-            );
-    
+            var p = $("<p>")
+            p.text("Your name means " + definition)
+            $("#results-container").append(p)
+        });
     
     }
 
