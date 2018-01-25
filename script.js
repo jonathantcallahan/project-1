@@ -15,7 +15,10 @@ var config = {
         console.log(snapshot.val())
         var p = $("<p>")
         p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
-        p.attr("id", "user-button")
+        p.attr("class", "user-button")
+        p.attr("name", snapshot.val().name)
+        p.attr("day",snapshot.val().dobDay)
+        p.attr("month",snapshot.val().dobMonth)
         $("#button-container").append(p)
     },
     function(errData){
@@ -23,8 +26,29 @@ var config = {
     }
 )
 
-$(document).delegate("#user-button","click",function(){
+$(document).delegate(".user-button","click",function(){
+    $("#results-container").empty()
     console.log("test")
+    userName = $(this).attr("name")
+    var userDobDay = $(this).attr("day")
+    var userDobMonth = $(this).attr("month")
+    var queryUrl = "http://history.muffinlabs.com/date/" + userDobMonth + "/" + userDobDay
+    $.ajaxPrefilter(function(options){
+        if(options.crossDomain && jQuery.support.cors) {
+            options.url = "https://cors-anywhere.herokuapp.com/" + options.url;
+        }
+    })
+    $.ajax({
+        url: queryUrl,
+        method: "GET"
+    }).done(function(response){
+        var returnInfo = JSON.parse(response);
+        var text = returnInfo.data.Events[0].text;
+        var yearOccur = returnInfo.data.Events[0].year;
+        var p = $("<p>")
+        p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
+        $("#results-container").append(p)
+    })
 })
 
 document.onkeydown = function(event){
