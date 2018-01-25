@@ -13,12 +13,19 @@ var config = {
 
   userStorage.on("child_added",function(snapshot){
         console.log(snapshot.val())
+        var p = $("<p>")
+        p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
+        p.attr("id", "user-button")
+        $("#button-container").append(p)
     },
     function(errData){
         console.log("Unable to retreive data")
     }
 )
 
+$(document).delegate("#user-button","click",function(){
+    console.log("test")
+})
 
 document.onkeydown = function(event){
     if(event.which === 13){
