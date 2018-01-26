@@ -7,9 +7,50 @@ var config = {
     messagingSenderId: "260716117815"
   };
 
-  firebase.initializeApp(config);
-  var userStorage = firebase.database().ref("user-storage")
-  var userName;
+firebase.initializeApp(config);
+var userStorage = firebase.database().ref("user-storage")
+var userName;
+
+$.ajaxPrefilter(function (options) {
+    if (options.crossDomain && jQuery.support.cors) {
+        options.url = "https://cors-anywhere.herokuapp.com/" + options.url;
+    }
+})
+//Place for our API calls
+var api = {
+    callNameAPI: function() {
+        $.ajax({
+            url: "https://wordsapiv1.p.mashape.com/words/" + userName,
+            data: { "X-Mashape-Key": "KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE" },
+            method: "GET",
+            beforeSend: function (xhr) { xhr.setRequestHeader('X-Mashape-Key', 'KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE') }
+        }).done(function (response) {
+            console.log(response);
+            var nameObj = response;
+            var definition = nameObj.results[0]["definition"];
+            console.log(definition);
+            var p = $("<p>")
+            p.text("Your name means " + definition)
+            $("#results-container").append(p)
+        });
+    },
+    callHistory: function(month, day) {
+        var queryUrl = "http://history.muffinlabs.com/date/" + month + "/" + day
+        console.log(queryUrl)
+
+        $.ajax({
+            url: queryUrl,
+            method: "GET"
+        }).done(function (response) {
+            var returnInfo = JSON.parse(response);
+            var text = returnInfo.data.Events[0].text;
+            var yearOccur = returnInfo.data.Events[0].year;
+            var p = $("<p>")
+            p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
+            $("#results-container").append(p)
+        })
+    }
+}
 
   userStorage.on("child_added",function(snapshot){
         console.log(snapshot.val())
@@ -32,23 +73,8 @@ $(document).delegate(".user-button","click",function(){
     userName = $(this).attr("name")
     var userDobDay = $(this).attr("day")
     var userDobMonth = $(this).attr("month")
-    var queryUrl = "http://history.muffinlabs.com/date/" + userDobMonth + "/" + userDobDay
-    $.ajaxPrefilter(function(options){
-        if(options.crossDomain && jQuery.support.cors) {
-            options.url = "https://cors-anywhere.herokuapp.com/" + options.url;
-        }
-    })
-    $.ajax({
-        url: queryUrl,
-        method: "GET"
-    }).done(function(response){
-        var returnInfo = JSON.parse(response);
-        var text = returnInfo.data.Events[0].text;
-        var yearOccur = returnInfo.data.Events[0].year;
-        var p = $("<p>")
-        p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
-        $("#results-container").append(p)
-    })
+    api.callHistory(userDobMonth, userDobDay);
+    api.callNameAPI();
 })
 
 document.onkeydown = function(event){
@@ -59,11 +85,6 @@ document.onkeydown = function(event){
         var userDobDay = $("#dob-input-day").val()
         var userDobMonth = $("#dob-input-month").val()
         var userDobYear = $("#dob-input-year").val()
-        $.ajaxPrefilter(function (options) {
-            if (options.crossDomain && jQuery.support.cors) {
-                options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-            }
-        });
 
         userStorage.push({
             name: userName,
@@ -72,36 +93,7 @@ document.onkeydown = function(event){
             dobYear: userDobYear
         })
 
-        var queryUrl = "http://history.muffinlabs.com/date/" + userDobMonth + "/" + userDobDay
-        console.log(queryUrl)
-        
-        $.ajax({
-            url: queryUrl,
-            method: "GET"
-        }).done(function(response){
-            var returnInfo = JSON.parse(response)
-            var text = returnInfo.data.Events[0].text;
-            var yearOccur = returnInfo.data.Events[0].year;
-            var p = $("<p>")
-            p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
-            $("#results-container").append(p)
-        })
-        
-        $.ajax({
-            url: "https://wordsapiv1.p.mashape.com/words/" + userName,
-            data: { "X-Mashape-Key": "KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE" },
-            method: "GET",
-            beforeSend: function (xhr) { xhr.setRequestHeader('X-Mashape-Key', 'KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE') }
-        }).done(function (response) {
-            console.log(response);
-            var nameObj = response;
-            var definition = nameObj.results[0]["definition"];
-            console.log(definition);
-            var p = $("<p>")
-            p.text("Your name means " + definition)
-            $("#results-container").append(p)
-        });
-    
+        api.callHistory(userDobMonth, userDobDay);
+        api.callNameAPI();
     }
-
 }
