@@ -86,9 +86,10 @@ document.onkeydown = function(event){
         $("#results-container").empty()
         console.log("test")
         var userName = $("#name-input").val().trim()
-        var userDobDay = $("#dob-input-day").val()
-        var userDobMonth = $("#dob-input-month").val()
-        var userDobYear = $("#dob-input-year").val()
+        var userDob = $("#date").val();
+        var userDobDay = userDob.substring(userDob.length - 2);
+        var userDobMonth = userDob.substring(5, 7);
+        var userDobYear = userDob.substring(0, 4);
 
         userStorage.push({
             name: userName,
