@@ -27,7 +27,6 @@ var api = {
             console.log(response);
             var nameObj = response;
             var definition = nameObj.results[0]["definition"];
-            console.log(definition);
             var p = $("<p>")
             p.text("Your name means " + definition)
             $("#results-container").append(p)
@@ -43,6 +42,11 @@ var api = {
         }).done(function (response) {
             var returnInfo = JSON.parse(response);
             var text = returnInfo.data.Events[0].text;
+            if(text.indexOf(":") > -1){ 
+                text = text.split(":")
+                console.log(text)
+                text = text[1]
+            }
             var yearOccur = returnInfo.data.Events[0].year;
             var p = $("<p>")
             p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
