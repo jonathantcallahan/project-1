@@ -56,17 +56,19 @@ var api = {
     }
 }
 
-  userStorage.on("child_added",function(snapshot){
-        console.log(snapshot.val())
-        var p = $("<p>")
-        p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
-        p.attr("class", "user-button")
-        p.attr("name", snapshot.val().name)
-        p.attr("day",snapshot.val().dobDay)
-        p.attr("month",snapshot.val().dobMonth)
-        $("#button-container").append(p)
-    },
-    function(errData){
+userStorage.on("child_added", function (snapshot) {
+    var key = snapshot.key
+    console.log(snapshot.val());
+    var p = $("<p>")
+    p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
+    p.attr("class", "user-button")
+    p.attr("name", snapshot.val().name)
+    p.attr("day", snapshot.val().dobDay)
+    p.attr("month", snapshot.val().dobMonth)
+    p.attr("key", key)
+    $("#button-container").append(p)
+},
+    function (errData) {
         console.log("Unable to retreive data")
     }
 )
