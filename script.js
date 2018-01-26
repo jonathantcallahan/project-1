@@ -9,7 +9,6 @@ var config = {
 
 firebase.initializeApp(config);
 var userStorage = firebase.database().ref("user-storage")
-var userName;
 
 $.ajaxPrefilter(function (options) {
     if (options.crossDomain && jQuery.support.cors) {
@@ -18,7 +17,7 @@ $.ajaxPrefilter(function (options) {
 })
 //Place for our API calls
 var api = {
-    callNameAPI: function() {
+    callNameAPI: function (userName) {
         $.ajax({
             url: "https://wordsapiv1.p.mashape.com/words/" + userName,
             data: { "X-Mashape-Key": "KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE" },
@@ -34,7 +33,7 @@ var api = {
             $("#results-container").append(p)
         });
     },
-    callHistory: function(month, day) {
+    callHistory: function (month, day, userName) {
         var queryUrl = "http://history.muffinlabs.com/date/" + month + "/" + day
         console.log(queryUrl)
 
@@ -70,18 +69,18 @@ var api = {
 $(document).delegate(".user-button","click",function(){
     $("#results-container").empty()
     console.log("test")
-    userName = $(this).attr("name")
+    var userName = $(this).attr("name")
     var userDobDay = $(this).attr("day")
     var userDobMonth = $(this).attr("month")
-    api.callHistory(userDobMonth, userDobDay);
-    api.callNameAPI();
+    api.callHistory(userDobMonth, userDobDay, userName);
+    api.callNameAPI(userName);
 })
 
 document.onkeydown = function(event){
     if(event.which === 13){
         $("#results-container").empty()
         console.log("test")
-        userName = $("#name-input").val().trim()
+        var userName = $("#name-input").val().trim()
         var userDobDay = $("#dob-input-day").val()
         var userDobMonth = $("#dob-input-month").val()
         var userDobYear = $("#dob-input-year").val()
@@ -93,7 +92,7 @@ document.onkeydown = function(event){
             dobYear: userDobYear
         })
 
-        api.callHistory(userDobMonth, userDobDay);
-        api.callNameAPI();
+        api.callHistory(userDobMonth, userDobDay, userName);
+        api.callNameAPI(userName);
     }
 }
