@@ -10,15 +10,18 @@
             font-family: arial;
         }
 
+        /*
         .user-input {
             width: 40px;
         }
+        */
 
         .user-button {
             border: 2px solid black;
             padding: 3px;
             text-align: center;
             display: inline-block;
+            margin: 5px 5px 0px;
         }
 
         html {
@@ -39,10 +42,13 @@
 
     <div id="sentence-container">
         <h1>My name is 
-            <input type="text" id="name-input">. I was born on 
-            <input class="user-input" type="text" id="dob-input-month" placeholder="MM">
-            <input class="user-input" type="text" id="dob-input-day" placeholder="DD">
-            <input class="user-input" type="text" id="dob-input-year" placeholder="YYYY">.
+                <input type="text" id="name-input" required>. I was born on 
+                <input class="user-input" type="date" id="date" name="birthday" min="1800-04-01" max="2018-04-30" required>
+               <!--
+                <input class="user-input" type="number" name="quantity" min="1" max="12" id="dob-input-month" placeholder="MM">
+                <input class="user-input" type="number" name="quantity" min="01" max="31" id="dob-input-day" placeholder="DD">
+                <input class="user-input" type="number" name="quantity" min="1800" max="2018" id="dob-input-year" placeholder="YYYY">.
+               -->
         </h1>
     </div>
     <div id="results-container"></div>
