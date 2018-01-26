@@ -53,13 +53,16 @@ var api = {
 
   userStorage.on("child_added",function(snapshot){
         console.log(snapshot.val())
-        var p = $("<p>")
-        p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
-        p.attr("class", "user-button")
-        p.attr("name", snapshot.val().name)
-        p.attr("day",snapshot.val().dobDay)
-        p.attr("month",snapshot.val().dobMonth)
-        $("#button-container").append(p)
+        var div = $("<div>");
+        var p = $("<p>");
+        var span = $("<span>").text("X").addClass("remove")
+        p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear);
+        p.attr("class", "user-button");
+        p.attr("name", snapshot.val().name);
+        p.attr("day",snapshot.val().dobDay);
+        p.attr("month",snapshot.val().dobMonth);
+        div.append(p, span);
+        $("#button-container").append(div);
     },
     function(errData){
         console.log("Unable to retreive data")
