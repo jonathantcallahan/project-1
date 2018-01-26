@@ -41,13 +41,14 @@ var api = {
             method: "GET"
         }).done(function (response) {
             var returnInfo = JSON.parse(response);
-            var text = returnInfo.data.Events[0].text;
+            var x = Math.floor(Math.random() * returnInfo.data.Events.length); //randomizes the response we add to the page (next 2 lines)
+            var text = returnInfo.data.Events[x].text;
             if(text.indexOf(":") > -1){ 
                 text = text.split(":")
                 console.log(text)
                 text = text[1]
             }
-            var yearOccur = returnInfo.data.Events[0].year;
+            var yearOccur = returnInfo.data.Events[x].year;
             var p = $("<p>")
             p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
             $("#results-container").append(p)
