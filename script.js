@@ -6,10 +6,22 @@ var config = {
     storageBucket: "",
     messagingSenderId: "260716117815"
   };
-
+/*
 firebase.initializeApp(config);
 var userStorage = firebase.database().ref("user-storage")
 
+// The following code is for firebase authentication/login
+var provider = new firebase.auth.GithubAuthProvider();
+
+ui.start('#firebaseui-auth-container', {
+    signInOptions =[
+        // List of OAuth providers supported.
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.GithubAuthProvider.PROVIDER_ID
+    ],
+    // Other config options...
+});
+*/
 $.ajaxPrefilter(function (options) {
     if (options.crossDomain && jQuery.support.cors) {
         options.url = "https://cors-anywhere.herokuapp.com/" + options.url;
