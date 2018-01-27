@@ -5,7 +5,7 @@ var config = {
     projectId: "project-5f04c",
     storageBucket: "",
     messagingSenderId: "260716117815"
-  };
+};
 
 firebase.initializeApp(config);
 var userStorage = firebase.database().ref("user-storage")
@@ -27,7 +27,6 @@ var api = {
             console.log(response);
             var nameObj = response;
             var definition = nameObj.results[0]["definition"];
-            console.log(definition);
             var p = $("<p>")
             p.text("Your name means " + definition)
             $("#results-container").append(p)
@@ -42,8 +41,14 @@ var api = {
             method: "GET"
         }).done(function (response) {
             var returnInfo = JSON.parse(response);
-            var text = returnInfo.data.Events[0].text;
-            var yearOccur = returnInfo.data.Events[0].year;
+            var x = Math.floor(Math.random() * returnInfo.data.Events.length); //randomizes the response we add to the page (next 2 lines)
+            var text = returnInfo.data.Events[x].text;
+            if (text.indexOf(":") > -1) {
+                text = text.split(":")
+                console.log(text)
+                text = text[1]
+            }
+            var yearOccur = returnInfo.data.Events[x].year;
             var p = $("<p>")
             p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
             $("#results-container").append(p)
@@ -51,25 +56,27 @@ var api = {
     }
 }
 
-  userStorage.on("child_added",function(snapshot){
-        console.log(snapshot.val())
-        var div = $("<div>");
-        var p = $("<p>");
-        var span = $("<span>").text("X").addClass("remove")
-        p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear);
-        p.attr("class", "user-button");
-        p.attr("name", snapshot.val().name);
-        p.attr("day",snapshot.val().dobDay);
-        p.attr("month",snapshot.val().dobMonth);
-        div.append(p, span);
-        $("#button-container").append(div);
-    },
-    function(errData){
+userStorage.on("child_added", function (snapshot) {
+    var key = snapshot.key
+    console.log(snapshot.val());
+    var p = $("<p>")
+    var span = $("<span>").text("X").addClass("remove")
+    var div = $("<div>")
+    span.attr("key", key)
+    p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
+    p.attr("class", "user-button")
+    p.attr("name", snapshot.val().name)
+    p.attr("day", snapshot.val().dobDay)
+    p.attr("month", snapshot.val().dobMonth)
+    div.append(p, span)
+    $("#button-container").append(div)
+},
+    function (errData) {
         console.log("Unable to retreive data")
     }
 )
 
-$(document).delegate(".user-button","click",function(){
+$(document).delegate(".user-button", "click", function () {
     $("#results-container").empty()
     console.log("test")
     var userName = $(this).attr("name")
@@ -77,16 +84,25 @@ $(document).delegate(".user-button","click",function(){
     var userDobMonth = $(this).attr("month")
     api.callHistory(userDobMonth, userDobDay, userName);
     api.callNameAPI(userName);
-})
+});
 
-document.onkeydown = function(event){
-    if(event.which === 13){
+//delete function
+$(document).delegate(".remove", "click", function () {
+    var thisButton = $(this).parent();//grabs the parent of the remove button, so that we can delete from DOM
+    var key = $(this).attr("key");//grabs key of the object we'll be deleting
+    firebase.database().ref("user-storage/" + key).remove();//deletes the object in Firebase
+    thisButton.remove();//removes containing button from DOM
+});
+
+document.onkeydown = function (event) {
+    if (event.which === 13) {
         $("#results-container").empty()
         console.log("test")
         var userName = $("#name-input").val().trim()
-        var userDobDay = $("#dob-input-day").val()
-        var userDobMonth = $("#dob-input-month").val()
-        var userDobYear = $("#dob-input-year").val()
+        var userDob = $("#date").val();
+        var userDobDay = userDob.substring(userDob.length - 2);
+        var userDobMonth = userDob.substring(5, 7);
+        var userDobYear = userDob.substring(0, 4);
 
         userStorage.push({
             name: userName,
