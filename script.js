@@ -1,15 +1,8 @@
-var config = {
-    apiKey: "AIzaSyBbGCe-jyKFshGLnmOdwHzIEOX7bIWaLgw",
-    authDomain: "project-5f04c.firebaseapp.com",
-    databaseURL: "https://project-5f04c.firebaseio.com",
-    projectId: "project-5f04c",
-    storageBucket: "",
-    messagingSenderId: "260716117815"
-  };
-/*
 firebase.initializeApp(config);
+
 var userStorage = firebase.database().ref("user-storage")
 
+/*
 // The following code is for firebase authentication/login
 var provider = new firebase.auth.GithubAuthProvider();
 
@@ -22,11 +15,10 @@ ui.start('#firebaseui-auth-container', {
     // Other config options...
 });
 */
-$.ajaxPrefilter(function (options) {
-    if (options.crossDomain && jQuery.support.cors) {
-        options.url = "https://cors-anywhere.herokuapp.com/" + options.url;
-    }
-})
+var app = {
+    isRunning: false,
+    fullMessage: ""
+};
 //Place for our API calls
 var api = {
     callNameAPI: function (userName) {
@@ -36,7 +28,6 @@ var api = {
             method: "GET",
             beforeSend: function (xhr) { xhr.setRequestHeader('X-Mashape-Key', 'KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE') }
         }).done(function (response) {
-            console.log(response);
             var nameObj = response;
             var definition = nameObj.results[0]["definition"];
             var p = $("<p>")
@@ -45,9 +36,13 @@ var api = {
         });
     },
     callHistory: function (month, day, userName) {
-        var queryUrl = "http://history.muffinlabs.com/date/" + month + "/" + day
-        console.log(queryUrl)
 
+        var queryUrl = "https://cors-anywhere.herokuapp.com/" + "http://history.muffinlabs.com/date/" + month + "/" + day
+        // $.ajaxPrefilter(function (options) {
+        //     if (options.crossDomain && jQuery.support.cors) {
+        //         options.url = "https://cors-anywhere.herokuapp.com/" + options.url;
+        //     }
+        // })
         $.ajax({
             url: queryUrl,
             method: "GET"
@@ -55,21 +50,39 @@ var api = {
             var returnInfo = JSON.parse(response);
             var x = Math.floor(Math.random() * returnInfo.data.Events.length); //randomizes the response we add to the page (next 2 lines)
             var text = returnInfo.data.Events[x].text;
-            if(text.indexOf(":") > -1){ 
+            var yearOccur = returnInfo.data.Events[x].year;
+
+            if (text.indexOf(":") > -1) {
                 text = text.split(":")
-                console.log(text)
                 text = text[1]
             }
-            var yearOccur = returnInfo.data.Events[x].year;
-            var p = $("<p>")
-            p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
-            $("#results-container").append(p)
+
+
+            //Typing animation
+            clearTimeout(runTypewriter)
+            var runTypewriter;
+            var i = 0;
+            var speed = 50;
+            app.fullMessage = "";
+            app.fullMessage = ("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
+            typeAnimation();
+            function typeAnimation() {
+                if (i < app.fullMessage.length) {
+                    var character = app.fullMessage.charAt(i)
+                    var text = $("#results-container").text()
+                    $("#results-container").text(text + character)
+                    i++;
+                    setTimeout(typeAnimation, speed);
+                }
+            };
+            // var p = $("<p>")
+            //p.text("Hi " + userName + ", In the year " + yearOccur + " on the day you were born " + text)
+            //$("#results-container").append(p)
         })
     }
 }
 
   userStorage.on("child_added",function(snapshot){
-        console.log(snapshot.val())
         var p = $("<p>")
         p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
         p.attr("class", "user-button")
@@ -85,7 +98,6 @@ var api = {
 
 $(document).delegate(".user-button","click",function(){
     $("#results-container").empty()
-    console.log("test")
     var userName = $(this).attr("name")
     var userDobDay = $(this).attr("day")
     var userDobMonth = $(this).attr("month")
@@ -96,7 +108,6 @@ $(document).delegate(".user-button","click",function(){
 document.onkeydown = function(event){
     if(event.which === 13){
         $("#results-container").empty()
-        console.log("test")
         var userName = $("#name-input").val().trim()
         var userDob = $("#date").val();
         var userDobDay = userDob.substring(userDob.length - 2);
@@ -110,7 +121,8 @@ document.onkeydown = function(event){
             dobYear: userDobYear
         })
 
-        api.callHistory(userDobMonth, userDobDay, userName);
         api.callNameAPI(userName);
+        api.callHistory(userDobMonth, userDobDay, userName);
+
     }
 }
