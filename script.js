@@ -5,11 +5,23 @@ var config = {
     projectId: "project-5f04c",
     storageBucket: "",
     messagingSenderId: "260716117815"
-};
-
+  };
+/*
 firebase.initializeApp(config);
 var userStorage = firebase.database().ref("user-storage")
 
+// The following code is for firebase authentication/login
+var provider = new firebase.auth.GithubAuthProvider();
+
+ui.start('#firebaseui-auth-container', {
+    signInOptions =[
+        // List of OAuth providers supported.
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.GithubAuthProvider.PROVIDER_ID
+    ],
+    // Other config options...
+});
+*/
 $.ajaxPrefilter(function (options) {
     if (options.crossDomain && jQuery.support.cors) {
         options.url = "https://cors-anywhere.herokuapp.com/" + options.url;
@@ -43,7 +55,7 @@ var api = {
             var returnInfo = JSON.parse(response);
             var x = Math.floor(Math.random() * returnInfo.data.Events.length); //randomizes the response we add to the page (next 2 lines)
             var text = returnInfo.data.Events[x].text;
-            if (text.indexOf(":") > -1) {
+            if(text.indexOf(":") > -1){ 
                 text = text.split(":")
                 console.log(text)
                 text = text[1]
@@ -56,27 +68,22 @@ var api = {
     }
 }
 
-userStorage.on("child_added", function (snapshot) {
-    var key = snapshot.key
-    console.log(snapshot.val());
-    var p = $("<p>")
-    var span = $("<span>").text("X").addClass("remove")
-    var div = $("<div>")
-    span.attr("key", key)
-    p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
-    p.attr("class", "user-button")
-    p.attr("name", snapshot.val().name)
-    p.attr("day", snapshot.val().dobDay)
-    p.attr("month", snapshot.val().dobMonth)
-    div.append(p, span)
-    $("#button-container").append(div)
-},
-    function (errData) {
+  userStorage.on("child_added",function(snapshot){
+        console.log(snapshot.val())
+        var p = $("<p>")
+        p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear)
+        p.attr("class", "user-button")
+        p.attr("name", snapshot.val().name)
+        p.attr("day",snapshot.val().dobDay)
+        p.attr("month",snapshot.val().dobMonth)
+        $("#button-container").append(p)
+    },
+    function(errData){
         console.log("Unable to retreive data")
     }
 )
 
-$(document).delegate(".user-button", "click", function () {
+$(document).delegate(".user-button","click",function(){
     $("#results-container").empty()
     console.log("test")
     var userName = $(this).attr("name")
@@ -84,18 +91,10 @@ $(document).delegate(".user-button", "click", function () {
     var userDobMonth = $(this).attr("month")
     api.callHistory(userDobMonth, userDobDay, userName);
     api.callNameAPI(userName);
-});
+})
 
-//delete function
-$(document).delegate(".remove", "click", function () {
-    var thisButton = $(this).parent();//grabs the parent of the remove button, so that we can delete from DOM
-    var key = $(this).attr("key");//grabs key of the object we'll be deleting
-    firebase.database().ref("user-storage/" + key).remove();//deletes the object in Firebase
-    thisButton.remove();//removes containing button from DOM
-});
-
-document.onkeydown = function (event) {
-    if (event.which === 13) {
+document.onkeydown = function(event){
+    if(event.which === 13){
         $("#results-container").empty()
         console.log("test")
         var userName = $("#name-input").val().trim()
