@@ -60,6 +60,8 @@ ui.start('#firebaseui-auth-container', {
 /***** object for our API calls *******/
 var api = {
     callNameAPI: function () {
+        app.textTwoAdded = false;
+        app.textTwo = "";
         $.ajax({
             url: "https://wordsapiv1.p.mashape.com/words/" + app.userName,
             data: { "X-Mashape-Key": "KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE" },
@@ -67,11 +69,13 @@ var api = {
             beforeSend: function (xhr) { xhr.setRequestHeader('X-Mashape-Key', 'KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE') }
         }).done(function (response) {
             var nameObj = response;
-            var definition = nameObj.results[0]["definition"];
-            app.textTwo = definition;
-            // var p = $("<p>")
-            // p.text("Your name means " + definition)
-            // $("#results-container").append(p)
+            if (nameObj.results){
+                var definition = nameObj.results[0]["definition"];
+                app.textTwo = definition;
+            }
+            else {
+                console.log("No definition from Name API");
+            }
         });
     },
     callHistory: function () {
@@ -100,8 +104,21 @@ var api = {
                 $("#results-container").empty();
             };
             app.letterCount = 0; //resets the letter count for our "loop" when we run typeAnimation
-            app.fullMessage = ("Hi " + app.userName + ", In the year " + app.yearOccur + " on the day you were born, " + app.text)
+            app.fullMessage = ("Hi " + app.userName + ", on the day you were born, in the year " + app.yearOccur + ":  " + app.text)
             app.typeAnimation();
+        })
+    },
+    callNumbers: function() {
+        app.textThree = "";
+        $.ajax({
+            url: "https://cors-anywhere.herokuapp.com/" + "http://numbersapi.com/" + app.userDobYear + "/year?fragment&json",
+            method: "GET"
+        }).done(function (response) {
+            if (response){
+            var obj = response;
+                app.textThree = obj.text;
+            }
+            else (console.log("No Numbers Response"));
         })
     }
 }; //end API object
@@ -116,6 +133,7 @@ var app = {
     userDobYear: "", //parsed year from Dob
     text: "", //text from initial API call
     textTwo: "", //text from second API call
+    textThree: "", //text from third API call
     textTwoAdded: false, //indicates that the text from second API call was added to the results container
     fullMessage: "", //this variable is currently just used in typeAnimation(); takes the text from an API call with some additioanl explanation and prints it to the UI
     typeAnimationTimeout: "", //timeout for our typeAnimationTimeoutFunction
@@ -124,7 +142,7 @@ var app = {
     //animates page with info from first API, then checks for additional APIs
     typeAnimation: function () {
         if (app.letterCount === app.fullMessage.length) {
-            if (app.textTwo != "" && app.textTwoAdded === false){ //if we have received a response from Words API
+            if (app.textTwoAdded === false){ //if we have received a response from Words API
                 app.addSecondText(); //add its text to our results using this function
             };
         }
@@ -143,7 +161,14 @@ var app = {
     addSecondText: function (){
         app.letterCount = 0;
         clearTimeout(app.typeAnimationTimeout);
-        app.fullMessage = " Your name is most commonly associated with:  " + app.textTwo + ".";
+        if (app.textTwo !== ""){
+            console.log("business as usual")
+            app.fullMessage = " Your name is most commonly associated with:  " + app.textTwo + ".";
+        }
+        else {
+            console.log("no second message")
+            app.fullMessage = " And in the year you were born, " + app.textThree + ".";
+        };
         app.textTwoAdded = true; //prevents an endless loop from the logic above in typeAnimation()
         app.typeAnimation(); //appends to date in history
     },
@@ -160,30 +185,30 @@ var app = {
         p.attr("name", snapshot.val().name);
         p.attr("day", snapshot.val().dobDay);
         p.attr("month", snapshot.val().dobMonth);
+        p.attr("year", snapshot.val().dobYear);
         div.append(p, span);
         $("#button-container").append(div);
     },
 
     //the following two functions deal with either inputting data to view content on the page, or viewing content for pre-existing users
-    addNewName: function (event) {
-        if (event.which === 13) {
-            $("#results-container").empty();
-            app.userName = $("#name-input").val().trim();
-            app.userDob = $("#date").val();
-            app.userDobDay = app.userDob.substring(app.userDob.length - 2);
-            app.userDobMonth = app.userDob.substring(5, 7);
-            app.userDobYear = app.userDob.substring(0, 4);
+    addNewName: function() {
+        $("#results-container").empty();
+        app.userName = $("#name-input").val().trim();
+        app.userDob = $("#date").val();
+        app.userDobDay = app.userDob.substring(app.userDob.length - 2);
+        app.userDobMonth = app.userDob.substring(5, 7);
+        app.userDobYear = app.userDob.substring(0, 4);
 
-            userStorage.push({
-                name: app.userName,
-                dobDay: app.userDobDay,
-                dobMonth: app.userDobMonth,
-                dobYear: app.userDobYear
-            })
+        userStorage.push({
+            name: app.userName,
+            dobDay: app.userDobDay,
+            dobMonth: app.userDobMonth,
+            dobYear: app.userDobYear
+        })
 
-            api.callHistory();
-            api.callNameAPI();
-        }
+        api.callHistory();
+        api.callNameAPI();
+        api.callNumbers();
     },
 
     //if a user clicks on a pre-existing name/dob button, return info
@@ -192,8 +217,10 @@ var app = {
         app.userName = $(that).attr("name");
         app.userDobDay = $(that).attr("day");
         app.userDobMonth = $(that).attr("month");
+        app.userDobYear = $(that).attr("year");
         api.callHistory();
         api.callNameAPI();
+        api.callNumbers();
     }
 }; //end app object
 
@@ -220,4 +247,9 @@ $(document).delegate(".remove", "click", function () {
 });
 
 // function when a user inputs name/dob 
-document.onkeydown = addNewName(event); //adds new name/dob button and returns info about this input
+document.onkeydown = function () {
+    if (event.which === 13){
+        app.addNewName();
+    }; 
+};//adds new name/dob button and returns info about this input
+
