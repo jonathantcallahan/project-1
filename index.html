@@ -30,6 +30,8 @@
 		<!-- More ideas for the basic interface -->
 		<link rel="stylesheet" href="css/sidebar.css"> <!-- TODO: Remove this line! -->
 		<script src="js/libs/modernizr-2.0.6.min.js"></script>
+		<script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+		<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 	</head>
 	
 	<body>
@@ -241,14 +243,7 @@
 								<!-- <div class="alert warning no-margin top">
 									<span class="icon"></span>5 Saved Sessions Limit.
 								</div> -->
-								<ul class="stats-list">
-									<li>
-										<a href="#">Sam 10/04/1993</a>
-									</li>
-									<li>
-										<a href="#">Jonathan 10/04/1993</a>
-									</li>
-								</ul>
+								<div id="firebaseui-auth-container"></div>
 							</div> <!-- End of .content -->
 							<div class="clear"></div>
 						</div> <!-- End of .box -->
@@ -282,6 +277,9 @@
 		<!-- Verified loads slow on local but actially speeds up loading on server, script is fine -->
 		<script defer src="js/jquery-ui-2.1.1.js"></script> <!-- REQUIRED: for rounded panels and icons -->
 		<script defer src="js/jquery-ui-2.1.1.js"></script> <!-- REQUIRED: for rounded panels and icons -->
+		<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+		<script src="config.js"></script>
+		<script src="script.js"></script>
 		<!-- end scripts -->
 	</body>
 </html>
