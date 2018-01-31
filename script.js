@@ -3,10 +3,9 @@ firebase.initializeApp(config);
 var userStorage = firebase.database().ref("user-storage")
 
 
-/*
 // The following code is for firebase authentication/login
 var provider = new firebase.auth.GithubAuthProvider();
-/*
+
 ui.start('#firebaseui-auth-container', {
     signInOptions =[
         // List of OAuth providers supported.
@@ -17,9 +16,9 @@ ui.start('#firebaseui-auth-container', {
 });
 
 
- initApp = function() {
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
+initApp = function () {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
             // User is signed in.
             var displayName = user.displayName;
             var email = user.email;
@@ -28,35 +27,54 @@ ui.start('#firebaseui-auth-container', {
             var uid = user.uid;
             var phoneNumber = user.phoneNumber;
             var providerData = user.providerData;
-            user.getIdToken().then(function(accessToken) {
-              document.getElementById('sign-in-status').textContent = 'Signed in';
-              document.getElementById('sign-in').textContent = 'Sign out';
-              document.getElementById('account-details').textContent = JSON.stringify({
-                displayName: displayName,
-                email: email,
-                emailVerified: emailVerified,
-                phoneNumber: phoneNumber,
-                photoURL: photoURL,
-                uid: uid,
-                accessToken: accessToken,
-                providerData: providerData
-              }, null, '  ');
+            user.getIdToken().then(function (accessToken) {
+                document.getElementById('sign-in-status').textContent = 'Signed in';
+                document.getElementById('sign-in').textContent = 'Sign out';
+                document.getElementById('account-details').textContent = JSON.stringify({
+                    displayName: displayName,
+                    email: email,
+                    emailVerified: emailVerified,
+                    phoneNumber: phoneNumber,
+                    photoURL: photoURL,
+                    uid: uid,
+                    accessToken: accessToken,
+                    providerData: providerData
+                }, null, '  ');
             });
-          } else {
+        } else {
             // User is signed out.
             document.getElementById('sign-in-status').textContent = 'Signed out';
             document.getElementById('sign-in').textContent = 'Sign in';
             document.getElementById('account-details').textContent = 'null';
-          }
-        }, function(error) {
-          console.log(error);
-        });
-      };
+        }
+    }, function (error) {
+        console.log(error);
+    });
+};
 
-      window.addEventListener('load', function() {
-        initApp()
+window.addEventListener('load', function () {
+    initApp()
 });
-*/
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+    .then(function () {
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        // ...
+        // New sign-in will be persisted with session persistence.
+        return firebase.auth().signInWithEmailAndPassword(email, password);
+    })
+    .catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+    });
+
+var app = {
+    isRunning: false,
+    fullMessage: ""
+};
+//Place for our API calls
 /***** object for our API calls *******/
 var api = {
     callNameAPI: function () {
