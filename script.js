@@ -1,6 +1,6 @@
 /********** Firebase initialization: If forking, add your credentials to config const in config.js    ***********/
 firebase.initializeApp(config);
-var userStorage = firebase.database().ref("user-storage")
+var userStorage = firebase.database().ref("user-storage/notloggedin")
 
 
 // The following code is for firebase authentication/login
@@ -57,7 +57,9 @@ initApp = function () {
             var photoURL = user.photoURL;
             var uid = user.uid;
             app.uid = uid;
+            userStorage = firebase.database().ref("user-storage/" + app.uid);
             console.log(app.uid);
+            app.buttonListener();
             var phoneNumber = user.phoneNumber;
             var providerData = user.providerData;
             user.getIdToken().then(function (accessToken) {
@@ -273,18 +275,19 @@ var app = {
         api.callHistory();
         api.callNameAPI();
         api.callNumbers();
+    },
+    buttonListener: function () {
+        userStorage.on("child_added", function (snapshot) {
+            app.populateButtons(snapshot)
+        }, //pulls firebase info to the populate buttons function
+            function (errData) {
+                console.log("Unable to retreive data");
+            }
+        )
     }
 }; //end app object
 
 /************* Event listeners    *************/
-userStorage.on("child_added", function (snapshot) {
-    app.populateButtons(snapshot)
-}, //pushes firebase info to the populate buttons function
-    function (errData) {
-        console.log("Unable to retreive data");
-    }
-)
-
 // on-click event function for when a user clcks on a pre-existing serach's button
 $(document).delegate(".user-button", "click", function () {
     var that = $(this);
