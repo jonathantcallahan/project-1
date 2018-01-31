@@ -6,15 +6,45 @@ var userStorage = firebase.database().ref("user-storage")
 // The following code is for firebase authentication/login
 var provider = new firebase.auth.GithubAuthProvider();
 
-ui.start('#firebaseui-auth-container', {
-    signInOptions =[
-        // List of OAuth providers supported.
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+// FirebaseUI config.
+var uiConfig = {
+    callbacks: {
+        signInSuccess: function (currentUser, credential, redirectUrl) {
+            // User successfully signed in.
+            // Return type determines whether we continue the redirect automatically
+            // or whether we leave that to developer to handle.
+            return true;
+        },
+        uiShown: function () {
+            // The widget is rendered.
+            // Hide the loader.
+            document.getElementById('loader').style.display = 'none';
+        }
+    },
+    signInSuccessUrl: 'index.html',
+    signInOptions: [
+        {
+            provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            scopes: [
+                'https://www.googleapis.com/auth/plus.login'
+            ],
+            customParameters: {
+                // Forces account selection even when one account
+                // is available.
+                prompt: 'select_account'
+            }
+        },
+        // Leave the lines as is for the providers you want to offer your users.
         firebase.auth.GithubAuthProvider.PROVIDER_ID
     ],
-    // Other config options...
-});
+    // Terms of service url.
+    tosUrl: '<your-tos-url>'
+};
 
+// Initialize the FirebaseUI Widget using Firebase.
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
+// The start method will wait until the DOM is loaded.
+ui.start('#firebaseui-auth-container', uiConfig);
 
 initApp = function () {
     firebase.auth().onAuthStateChanged(function (user) {
