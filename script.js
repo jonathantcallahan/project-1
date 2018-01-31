@@ -69,7 +69,12 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         var errorCode = error.code;
         var errorMessage = error.message;
     });
-// */
+
+var app = {
+    isRunning: false,
+    fullMessage: ""
+};
+//Place for our API calls
 /***** object for our API calls *******/
 var api = {
     callNameAPI: function () {
@@ -82,7 +87,7 @@ var api = {
             beforeSend: function (xhr) { xhr.setRequestHeader('X-Mashape-Key', 'KTvKMGaySOmsh75NGO7T8aR3MBbwp1rfNdIjsnwdXomPepANNE') }
         }).done(function (response) {
             var nameObj = response;
-            if (nameObj.results){
+            if (nameObj.results) {
                 var definition = nameObj.results[0]["definition"];
                 app.textTwo = definition;
             }
@@ -112,7 +117,7 @@ var api = {
                 app.text = app.text[1];
             }
             //Typing animation
-            if (app.typeAnimationTimeout != ""){
+            if (app.typeAnimationTimeout != "") {
                 clearTimeout(app.typeAnimationTimeout);
                 $("#results-container").empty();
             };
@@ -121,14 +126,14 @@ var api = {
             app.typeAnimation();
         })
     },
-    callNumbers: function() {
+    callNumbers: function () {
         app.textThree = "";
         $.ajax({
             url: "https://cors-anywhere.herokuapp.com/" + "http://numbersapi.com/" + app.userDobYear + "/year?fragment&json",
             method: "GET"
         }).done(function (response) {
-            if (response){
-            var obj = response;
+            if (response) {
+                var obj = response;
                 app.textThree = obj.text;
             }
             else (console.log("No Numbers Response"));
@@ -136,7 +141,7 @@ var api = {
     }
 }; //end API object
 /***** app object stores application functions and variables *******/
-var app = { 
+var app = {
 
     //variables
     userName: "",
@@ -151,11 +156,11 @@ var app = {
     fullMessage: "", //this variable is currently just used in typeAnimation(); takes the text from an API call with some additioanl explanation and prints it to the UI
     typeAnimationTimeout: "", //timeout for our typeAnimationTimeoutFunction
     letterCount: 0, //this value allows us to increment the typeAnimation function
-    
+
     //animates page with info from first API, then checks for additional APIs
     typeAnimation: function () {
         if (app.letterCount === app.fullMessage.length) {
-            if (app.textTwoAdded === false){ //if we have received a response from Words API
+            if (app.textTwoAdded === false) { //if we have received a response from Words API
                 app.addSecondText(); //add its text to our results using this function
             };
         }
@@ -171,10 +176,10 @@ var app = {
         var speed = 50;
         app.typeAnimationTimeout = setTimeout(app.typeAnimation, speed);
     },
-    addSecondText: function (){
+    addSecondText: function () {
         app.letterCount = 0;
         clearTimeout(app.typeAnimationTimeout);
-        if (app.textTwo !== ""){
+        if (app.textTwo !== "") {
             console.log("business as usual")
             app.fullMessage = " Your name is most commonly associated with:  " + app.textTwo + ".";
         }
@@ -204,7 +209,7 @@ var app = {
     },
 
     //the following two functions deal with either inputting data to view content on the page, or viewing content for pre-existing users
-    addNewName: function() {
+    addNewName: function () {
         $("#results-container").empty();
         app.userName = $("#name-input").val().trim();
         app.userDob = $("#date").val();
@@ -238,17 +243,18 @@ var app = {
 }; //end app object
 
 /************* Event listeners    *************/
-userStorage.on("child_added", function(snapshot){
-    app.populateButtons(snapshot)}, //pushes firebase info to the populate buttons function
+userStorage.on("child_added", function (snapshot) {
+    app.populateButtons(snapshot)
+}, //pushes firebase info to the populate buttons function
     function (errData) {
         console.log("Unable to retreive data");
     }
 )
 
 // on-click event function for when a user clcks on a pre-existing serach's button
-$(document).delegate(".user-button", "click", function (){
+$(document).delegate(".user-button", "click", function () {
     var that = $(this);
-    app.clickButton (that);
+    app.clickButton(that);
 });
 
 //delete function
@@ -261,8 +267,7 @@ $(document).delegate(".remove", "click", function () {
 
 // function when a user inputs name/dob 
 document.onkeydown = function () {
-    if (event.which === 13){
+    if (event.which === 13) {
         app.addNewName();
-    }; 
+    };
 };//adds new name/dob button and returns info about this input
-
