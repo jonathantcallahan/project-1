@@ -1,0 +1,25 @@
+/*
+ * 
+ * 
+ * 
+ * ===================
+ *   Charts Plugin
+ * ===================
+ * 
+ */
+
+.graph.large {
+	height: 600px;
+	margin: 10px auto;
+}
+
+.graph.medium {
+	height: 400px;
+	margin: 10px auto;
+}
+
+.graph.small {
+	height: 200px;
+	margin: 10px auto;
+}
+
