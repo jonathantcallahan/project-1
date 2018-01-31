@@ -1,88 +1,263 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+	<head>
+		<meta charset="utf-8">
+		<link rel=dns-prefetch href="//fonts.googleapis.com">
+		
+		<title>Narcissist v1.0</title>
+		
+		<!-- Mobile viewport optimized: j.mp/bplateviewport -->
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/960gs/fluid.css"> <!-- 960.gs Grid System -->
+		<!-- The HTML5-Boilerplate CSS styling -->
+		<link rel="stylesheet" href="css/h5bp/normalize.css"> <!-- RECOMMENDED: H5BP reset styles -->
+		<!-- The main styling -->
+		<link rel="stylesheet" href="css/sprites.css"> <!-- STRONGLY RECOMMENDED: Basic sprites (e.g. buttons, jGrowl) -->
+		<link rel="stylesheet" href="css/header.css"> <!-- REQUIRED: Header styling -->
+		<link rel="stylesheet" href="css/navigation.css"> <!-- REQUIRED: Navigation styling -->
+		<link rel="stylesheet" href="css/sidebar.css"> <!-- OPTIONAL: Sidebar -->
+		<link rel="stylesheet" href="css/content.css"> <!-- REQUIRED: Content styling -->
+		<link rel="stylesheet" href="css/footer.css"> <!-- REQUIRED: Footer styling -->
+		<link rel="stylesheet" href="css/typographics.css"> <!-- REQUIRED: Typographics -->
+		<!-- Sprites styling -->
+		<link rel="stylesheet" href="css/sprite.forms.css"> <!-- SPRITE: Forms styling -->
+		<link rel="stylesheet" href="css/sprite.lists.css"> <!-- SPRITE: Lists styling -->
+		<link rel="stylesheet" href="css/icons.css"> <!-- Icons -->
+		<!-- Styling of JS plugins -->
+		<link rel="stylesheet" href="css/external/jquery-ui-1.8.16.custom.css">	<!-- PLUGIN: jQuery UI styling -->
+		
+		
+		<!-- More ideas for the basic interface -->
+		<link rel="stylesheet" href="css/sidebar.css"> <!-- TODO: Remove this line! -->
+		<script src="js/libs/modernizr-2.0.6.min.js"></script>
+	</head>
+	
+	<body>
+		<div id="height-wrapper">
+			<header>
+				<div id="header_toolbar">
+					<div class="container_12">
+						<h1 class="grid_8">Narcissist v1.0</h1>	
+					</div>
+				</div>
+				
+				<!-- Start of the main header bar -->
+				<nav id="header_main">
+					<div class="container_12">
+						<!-- Start of the main navigation -->
+						<ul id="nav_main">
+							<li class="current">
+								<a href="#">
+								<img src="images/computer-imac.png" width=25 height=25 alt="">
+								Dashboard</a>
+								<ul>
+									<li class="current">
+										<a href="https://github.com/jonathantcallahan/project-1" target="_blank">Project Repo</a>
+									</li>
+									<li>
+										<a href="https://www.wordsapi.com/">Words API</a>
+									</li>
+									<li>
+										<a href="#">Logout</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						<!-- End of the main navigation -->
+					</div>
+				</nav>
+				<div id="nav_sub"></div>
+			</header>
+			
+			<!-- Start of the content -->
+			<div role="main" class="container_12" id="content-wrapper">
+				<!-- Start of the sidebar -->
+				<aside>
+					<div id="sidebar_top">
+						<div class="userinfo">
+							<div class="info">
+								<div class="avatar">
+									<img src="images/blank.png" width="204" height="80" alt="">
+								</div>
+								<a href="#">No Gender</a>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div id="sidebar_content">
+						<h2>API Details</h2>
+						<p>
+							Enter interesting information about API's used in the project.
+						</p>
+						<div class="divider"></div>
+					</div>
+				</aside><!-- End of the sidebar-->
+				
+				<!-- Start of the main content -->
+				<div id="main_content">
+				
+					<h2 class="grid_12">Results Dashboard</h2>
+					<div class="clean"></div>
+					
+					<div class="grid_12">
+						<div class="alert info">
+							<span class="icon"></span><span class="hide">x</span>
+							<strong>Project Notes:</strong> The information used in this application, Narcissist v1.0, is for entertainment purposes only and will not be shared or sold to third parties.
+						</div>
+					
+						<div class="box">
+							<div class="content no-padding">
+								<div class="step">
+									<span>1</span>
+									<div class="circle"></div>
+									<a href="#"> <strong>First Name</strong>
+									<small>
+										Enter only your first name
+										<br>
+										no special characters below.
+									</small> </a>
+								</div>
+								<div class="step">
+									<span>2</span>
+									<div class="circle"></div>
+									<a href="#"> <strong>Birthdate</strong>
+									<small>
+										Enter your or select your
+										<br>
+										birthdate (MM/DD/YYYY) format
+									</small> </a>
+								</div>
+								<div class="step">
+									<span>3</span>
+									<div class="circle"></div>
+									<a href="#"> <strong>Results</strong>
+									<small>
+										View your results in below
+										<br>
+										"It's ALL about you!".
+									</small> </a>
+								</div>
+							</div> <!-- End of .content -->
+						</div> <!-- End of .box -->
+					</div> <!-- End of .grid_12 -->
+					<div class="clear"></div>
+					
+					<!-- Start of User Entry Panel -->
+					<div class="grid_4">
+						<div class="box">
+							<div class="header">
+								<img src="images/document--plus.png" alt="" width="16"
+								height="16">
+								<h3>User Entry Panel</h3>
+							</div>
+							<form action="dashboard.html" class="validate">
+								<div class="content no-padding">
+									<div class="section _100">
+										<label for="firstname">
+											First Name
+										</label>
+										<div>
+											<input class="required" name="firstname" id="firstname">
+										</div>
+									</div>
+									<div class="section _100">
+										<label for="datedropdown">
+											Birthdate
+										</label>
+										<div>
+											<select name="datedropdown" id="datedropdown" class="required">
+												<option></option>
+												<option>Date Dropdown</option>
+												<option>Date Dropdown</option>
+												<option>Date Dropdown</option>
+											</select>
+										</div>
+									</div>
+									<div class="section _100">
+										<label for="resultsfield">
+											Results
+										</label>
+										<div>
+											<textarea cols="40" rows="10" class="required" name="resultsfield" id="resultsfield"></textarea>
+										</div>
+									</div>
+								</div> <!-- End of .content -->
+								<div class="actions">
+									<div class="actions-left">
+										<a class="button" href="#">Clear All Fields</a>
+									</div>
+									<div class="actions-right">
+										<a class="button" href="#">Search</a>
+									</div>
+								</div> <!-- End of .actions -->
+							</form>
+						</div> <!-- End of .box -->
+					</div> <!-- End of .grid_4 -->
+										
+					<div class="grid_2">
+						<div class="box">
+							<div class="header">
+								<img src="images/list.png" alt="" width="16"
+								height="16">
+								<h3>Saved Sessions</h3>
+							</div>
+							<div class="content">
+								<div class="alert warning no-margin top">
+									<span class="icon"></span>5 Saved Sessions Limit.
+								</div>
+								<ul class="stats-list">
+									<li>
+										<a href="#">Sam 10/04/1993</a>
+									</li>
+									<li>
+										<a href="#">Jonathan 10/04/1993</a>
+									</li>
+									<li>
+										<a href="#">Zach 10/04/1993</a>
+									</li>
+									<li>
+										<a href="#">Erick 10/04/1993</a>
+									</li>
+								</ul>
+							</div> <!-- End of .content -->
+							<div class="actions">
+								<div class="actions-left"></div>
+								<div class="actions-right">
+									<a class="button" href="#">Delete All Records</a>
+								</div>
+							</div> <!-- End of .actions -->
+							<div class="clear"></div>
+						</div> <!-- End of .box -->
+					</div> <!-- End of .grid_4 -->
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
-    <title>Hello, world</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        * {
-            font-family: arial;
-        }
-
-        .user-button {
-            border: 2px solid black;
-            padding: 3px;
-            text-align: center;
-            display: inline-block;
-            margin: 5px 5px 0px;
-        }
-
-        html {
-            animation: pulse 2s;
-        }
-
-        @keyframes pulse {
-            0% {
-                background-color: gray;
-            }
-            100% {
-                background-color: white;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <div id="sentence-container">
-        <h1>My name is
-            <input type="text" id="name-input" required>. I was born on
-            <input class="user-input" type="date" id="date" name="birthday" min="1800-04-01" max="2018-04-30" required>
-        </h1>
-    </div>
-    <div id="results-container"></div>
-    <h2>See what other users found</h2>
-    <div id="button-container"></div>
-
-
-    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-    <script src="config.js"></script>
-    <script src="script.js"></script>
-
-    <script type="text/javascript">
-        // FirebaseUI config.
-        var uiConfig = {
-            signInOptions: [
-                {
-                    provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                    scopes: [
-                        'https://www.googleapis.com/auth/plus.login'
-                    ],
-                    customParameters: {
-                        // Forces account selection even when one account
-                        // is available.
-                        prompt: 'select_account'
-                    }
-                },
-                // Leave the lines as is for the providers you want to offer your users.
-                firebase.auth.GithubAuthProvider.PROVIDER_ID
-            ],
-            // Terms of service url.
-            tosUrl: '<your-tos-url>'
-        };
-
-        // Initialize the FirebaseUI Widget using Firebase.
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
-        // The start method will wait until the DOM is loaded.
-        ui.start('#firebaseui-auth-container', uiConfig);
-    </script>
-    <div id="firebaseui-auth-container"></div>
-
-</body>
-
+				</div> <!-- End of #main_content -->
+				<div class="push clear"></div>
+					
+			</div> <!-- End of #content-wrapper -->
+			<div class="clear"></div>
+			<div class="push"></div>
+				
+		</div>
+			
+		<!-- Start of project footer-->
+		<footer>
+			<div class="container_12">
+				UNC Coding Bootcamp - Project 1, Team 5 - "Hello World"
+			</div>
+		</footer>
+		<!-- End of project footer-->
+			
+			
+		<!-- JavaScript at the bottom for fast page loading -->
+		<!-- Grab Google CDN's jQuery + jQueryUI, with a protocol relative URL; fall back to local concept applied -->		
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+		<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.js"><\/script>')</script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+		<script>window.jQuery.ui || document.write('<script src="js/libs/jquery-ui-1.8.16.min.js"><\/script>')</script>
+		
+		<!-- Great script site warns loads slow for locale devleopment -->
+		<!-- Verified loads slow on local but actially speeds up loading on server, script is fine -->
+		 <script defer src="js/jquery-ui-2.1.1.js"></script> <!-- REQUIRED: for rounded panels and icons -->
+		<!-- end scripts -->
+	</body>
 </html>
