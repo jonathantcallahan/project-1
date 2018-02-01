@@ -105,10 +105,6 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         var errorMessage = error.message;
     });
 
-var app = {
-    isRunning: false,
-    fullMessage: ""
-};
 //Place for our API calls
 /***** object for our API calls *******/
 var api = {
@@ -243,6 +239,7 @@ var app = {
         div.append(p, span);
         $("#button-container").append(div);
     },
+
     //the following two functions deal with either inputting data to view content on the page, or viewing content for pre-existing users
     addNewName: function () {
         $("#results-container").empty();
@@ -277,9 +274,8 @@ var app = {
     },
     buttonListener: function () {
         userStorage.on("child_added", function (snapshot) {
-            console.log("buttons being added!");
-            app.populateButtons(snapshot);
-        }, //pulls firebase info to the populate buttons function
+            app.populateButtons(snapshot)
+        }, //pushes firebase info to the populate buttons function
             function (errData) {
                 console.log("Unable to retreive data");
             }
@@ -288,6 +284,7 @@ var app = {
 }; //end app object
 
 /************* Event listeners    *************/
+
 // on-click event function for when a user clcks on a pre-existing serach's button
 $(document).delegate(".user-button", "click", function () {
     var that = $(this);
@@ -315,7 +312,7 @@ $("#search").click(function () {
     app.clickButton(that);
 });
 
-$("#logout").click(function(){
+$("#logout").click(function () {
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
     }).catch(function (error) {
