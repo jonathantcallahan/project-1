@@ -295,7 +295,7 @@ $(document).delegate(".user-button", "click", function () {
 $(document).delegate(".remove", "click", function () {
     var thisButton = $(this).parent();//grabs the parent of the remove button, so that we can delete from DOM
     var key = $(this).attr("key");//grabs key of the object we'll be deleting
-    firebase.database().ref("user-storage/" + key).remove();//deletes the object in Firebase
+    firebase.database().ref("user-storage/" + app.uid + "/" + key).remove();//deletes the object in Firebase
     thisButton.remove();//removes containing button from DOM
 });
 
@@ -314,6 +314,7 @@ $("#search").click(function () {
 
 $("#logout").click(function () {
     firebase.auth().signOut().then(function () {
+        location.reload();
         // Sign-out successful.
     }).catch(function (error) {
         // An error happened.
