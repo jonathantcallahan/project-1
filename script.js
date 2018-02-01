@@ -51,6 +51,7 @@ initApp = function () {
         if (user) {
             // User is signed in.
             $("#firebaseui-auth-container").css("display", "none");
+            $(".login-box").hide();
             var displayName = user.displayName;
             var email = user.email;
             var emailVerified = user.emailVerified;
@@ -63,8 +64,6 @@ initApp = function () {
             var phoneNumber = user.phoneNumber;
             var providerData = user.providerData;
             user.getIdToken().then(function (accessToken) {
-                document.getElementById('sign-in-status').textContent = 'Signed in';
-                document.getElementById('sign-in').textContent = 'Sign out';
                 document.getElementById('account-details').textContent = JSON.stringify({
                     displayName: displayName,
                     email: email,
@@ -78,9 +77,6 @@ initApp = function () {
             });
         } else {
             // User is signed out.
-            document.getElementById('sign-in-status').textContent = 'Signed out';
-            document.getElementById('sign-in').textContent = 'Sign in';
-            document.getElementById('account-details').textContent = 'null';
         }
     }, function (error) {
         console.log(error);
@@ -298,6 +294,13 @@ $(document).delegate(".remove", "click", function () {
     firebase.database().ref("user-storage/" + app.uid + "/" + key).remove();//deletes the object in Firebase
     thisButton.remove();//removes containing button from DOM
 });
+
+$(document).delegate(".hide", "click", function () {
+    var thisSection = $(this).parent();
+    thisSection.slideUp("fast", function () {
+        thisSection.hide();
+    });
+})
 
 // function when a user inputs name/dob 
 document.onkeydown = function () {
