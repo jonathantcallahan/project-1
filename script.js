@@ -276,9 +276,9 @@ var app = {
         api.callNumbers();
     },
     buttonListener: function () {
+        app.populateButtons(snapshot)
         userStorage.on("child_added", function (snapshot) {
             console.log("buttons being added!")
-            app.populateButtons(snapshot)
         }, //pulls firebase info to the populate buttons function
             function (errData) {
                 console.log("Unable to retreive data");
@@ -314,3 +314,11 @@ $("#search").click(function () {
     var that = $(this);
     app.clickButton(that);
 });
+
+$("#logout").click(function(){
+    firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+    }).catch(function (error) {
+        // An error happened.
+    });
+})
