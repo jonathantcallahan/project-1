@@ -314,6 +314,7 @@ $("#search").click(function () {
 
 $("#logout").click(function () {
     firebase.auth().signOut().then(function () {
+        location.reload();
         // Sign-out successful.
     }).catch(function (error) {
         // An error happened.
