@@ -276,9 +276,9 @@ var app = {
         api.callNumbers();
     },
     buttonListener: function () {
-        app.populateButtons(snapshot)
         userStorage.on("child_added", function (snapshot) {
-            console.log("buttons being added!")
+            console.log("buttons being added!");
+            app.populateButtons(snapshot);
         }, //pulls firebase info to the populate buttons function
             function (errData) {
                 console.log("Unable to retreive data");
