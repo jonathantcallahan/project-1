@@ -243,7 +243,6 @@ var app = {
         div.append(p, span);
         $("#button-container").append(div);
     },
-
     //the following two functions deal with either inputting data to view content on the page, or viewing content for pre-existing users
     addNewName: function () {
         $("#results-container").empty();
@@ -278,6 +277,7 @@ var app = {
     },
     buttonListener: function () {
         userStorage.on("child_added", function (snapshot) {
+            console.log("buttons being added!")
             app.populateButtons(snapshot)
         }, //pulls firebase info to the populate buttons function
             function (errData) {
@@ -308,3 +308,9 @@ document.onkeydown = function () {
         app.addNewName();
     };
 };//adds new name/dob button and returns info about this input
+
+$("#search").click(function () {
+    event.preventDefault();
+    var that = $(this);
+    app.clickButton(that);
+});
