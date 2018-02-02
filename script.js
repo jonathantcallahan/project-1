@@ -232,7 +232,8 @@ var app = {
         p.attr("day", snapshot.val().dobDay);
         p.attr("month", snapshot.val().dobMonth);
         p.attr("year", snapshot.val().dobYear);
-        div.append(p, span);
+        p.append(span);
+        div.append(p);
         $("#button-container").append(div);
     },
 
