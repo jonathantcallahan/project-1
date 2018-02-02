@@ -54,7 +54,7 @@ initApp = function () {
                 function () {
                     $("#firebaseui-auth-container").css("display", "none");
                     $(".login-box").hide();
-                }, 3000);
+                }, 1000);
             var displayName = user.displayName;
             var email = user.email;
             var emailVerified = user.emailVerified;
@@ -106,14 +106,13 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
 
 //Button effects
 $("#name-input").change(function(){
-    console.log("testttticles")
     $("#step-1").css("background-color","lightgreen")
     setTimeout(e => {$("#step-1").slideUp()},2500)
 })
 
 $("#date").change(function(){
     $("#step-2").css("background-color","lightgreen")
-    setTimout(e => {$("#step-2").slideUp()},2500)
+    setTimeout(e => {$("#step-2").slideUp()},2500)
 })
 
 $("results-container").change(function(){
