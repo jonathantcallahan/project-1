@@ -18,7 +18,7 @@ var uiConfig = {
         uiShown: function () {
             // The widget is rendered.
             // Hide the loader.
-            document.getElementById('loader').style.display = 'none';
+            // document.getElementById('loader').style.display = 'none';
         }
     },
     signInSuccessUrl: 'index.html',
@@ -222,9 +222,9 @@ var app = {
     //generates buttons onload
     populateButtons: function (snapshot) {
         var key = snapshot.key; //grabs the unique Firebase key associated with each name/dob entry
-        var p = $("<p>");
+        var p = $("<a>");
         var span = $("<span>").text("X").addClass("remove");
-        var div = $("<div>");
+        var div = $("<li>");
         span.attr("key", key);
         p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear);
         p.attr("class", "user-button");
@@ -239,6 +239,7 @@ var app = {
     //the following two functions deal with either inputting data to view content on the page, or viewing content for pre-existing users
     addNewName: function () {
         $("#results-container").empty();
+        $(".instructions").hide();
         app.userName = $("#name-input").val().trim();
         app.userDob = $("#date").val();
         app.userDobDay = app.userDob.substring(app.userDob.length - 2);
