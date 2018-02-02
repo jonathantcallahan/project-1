@@ -2,11 +2,10 @@
 
 <head>
 	<meta charset="utf-8">
-	<link rel=dns-prefetch href="//fonts.googleapis.com">
 
 	<title>Narcissist v1.0</title>
 
-	<!-- Mobile viewport optimized: j.mp/bplateviewport -->
+	<!-- Mobile viewport optimized: viewport -->
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<!-- CSS -->
 	<link rel="stylesheet" href="css/960gs/fluid.css">
@@ -33,20 +32,11 @@
 	<link rel="stylesheet" href="css/sprite.forms.css">
 	<!-- SPRITE: Forms styling -->
 	<link rel="stylesheet" href="css/sprite.lists.css">
-	<!-- SPRITE: Lists styling -->
-	<!-- <link rel="stylesheet" href="css/icons.css"> -->
-	<!-- Icons -->
-	<!-- Styling of JS plugins -->
-	<link rel="stylesheet" href="css/external/jquery-ui-1.8.16.custom.css">
-	<!-- PLUGIN: jQuery UI styling -->
 
-
-	<!-- More ideas for the basic interface -->
 	<link rel="stylesheet" href="css/sidebar.css">
-	<!-- TODO: Remove this line! -->
-
 	<link rel="stylesheet" href="css/script.css">
-	<script src="js/libs/modernizr-2.0.6.min.js"></script>
+
+	<!-- Load Firebase -->
 	<script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
 	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 </head>
@@ -98,25 +88,7 @@
 		<div role="main" class="container_12" id="content-wrapper">
 			<!-- Start of the sidebar -->
 			<aside>
-				<div id="sidebar_top">
-					<div class="userinfo">
-						<div class="info">
-							<div class="avatar">
-								<img src="images/blank.png" width="204" height="80" alt="">
-							</div>
-							<a>No Gender</a>
-						</div>
-						<div class="clear"></div>
-					</div>
-				</div>
-				<div id="sidebar_content">
-					<h2>API Details</h2>
-					<p>
-						Enter interesting information about API's used in the project.
-					</p>
 
-					<div class="divider"></div>
-				</div>
 			</aside>
 			<!-- End of the sidebar-->
 
@@ -175,7 +147,8 @@
 					<!-- End of .box -->
 				</div>
 				<!-- End of .grid_12 -->
-				<div class="clear"></div>
+				<div class="clear">
+				</div>
 
 				<!-- Start of User Entry Panel -->
 				<div class="grid_4 user-entry">
@@ -249,7 +222,7 @@
 				</div>
 				<!-- End of .grid_2 -->
 
-				<div class="grid_4 login-box">
+				<div class="grid_3 login-box">
 					<div class="box">
 						<div class="header">
 							<img src="images/list.png" alt="" width="16" height="16">
@@ -269,13 +242,10 @@
 				<!-- End of .grid_2 -->
 			</div>
 			<!-- End of #main_content -->
-			<div class="push clear"></div>
 
 		</div>
 		<!-- End of #content-wrapper -->
 		<div class="clear"></div>
-		<div class="push"></div>
-
 	</div>
 
 	<!-- Start of project footer-->
@@ -283,28 +253,28 @@
 		<div class="container_12">
 			UNC Coding Bootcamp - Project 1, Team 5 - "Hello World"
 		</div>
-		< </footer>
-			<!-- End of project footer-->
+	</footer>
+	<!-- End of project footer-->
 
 
-			<!-- JavaScript at the bottom for fast page loading -->
-			<!-- Grab Google CDN's jQuery + jQueryUI, with a protocol relative URL; fall back to local concept applied -->
-			<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+	<!-- JavaScript at the bottom for fast page loading -->
+	<!-- Grab Google CDN's jQuery + jQueryUI, with a protocol relative URL; fall back to local concept applied -->
+	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
 	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.1.js"><\/script>')</script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
 	<script>window.jQuery.ui || document.write('<script src="js/libs/jquery-ui-1.8.16.min.js"><\/script>')</script> -->
 
-			<!-- Great script site warns loads slow for locale devleopment -->
-			<!-- Verified loads slow on local but actially speeds up loading on server, script is fine -->
-			<!-- <script defer src="js/jquery-ui-2.1.1.js"></script> -->
-			<!-- REQUIRED: for rounded panels and icons -->
-			<!-- <script defer src="js/jquery-ui-2.1.1.js"></script> -->
-			<!-- REQUIRED: for rounded panels and icons -->
-			<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-			<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
-			<script src="config.js"></script>
-			<script src="script.js"></script>
-			<!-- end scripts -->
+	<!-- Great script site warns loads slow for locale devleopment -->
+	<!-- Verified loads slow on local but actially speeds up loading on server, script is fine -->
+	<!-- <script defer src="js/jquery-ui-2.1.1.js"></script> -->
+	<!-- REQUIRED: for rounded panels and icons -->
+	<!-- <script defer src="js/jquery-ui-2.1.1.js"></script> -->
+	<!-- REQUIRED: for rounded panels and icons -->
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+	<script src="config.js"></script>
+	<script src="script.js"></script>
+	<!-- end scripts -->
 </body>
 
 </html>
