@@ -1,0 +1,15 @@
+#splash {
+    background-image: url("../images/durhamskyline2.jpg");
+    width:100%;
+    height:100%;
+}
+
+#welcome-text {
+    color:white;
+    text-align:center;
+    margin: auto;
+    width:100%;
+    height:100%;
+    font-size: 140px;
+    padding-top:20%;
+}
