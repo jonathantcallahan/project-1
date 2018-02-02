@@ -50,8 +50,11 @@ initApp = function () {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             // User is signed in.
-            $("#firebaseui-auth-container").css("display", "none");
-            $(".login-box").hide();
+            setTimeout(
+                function () {
+                    $("#firebaseui-auth-container").css("display", "none");
+                    $(".login-box").hide();
+                }, 3000);
             var displayName = user.displayName;
             var email = user.email;
             var emailVerified = user.emailVerified;
