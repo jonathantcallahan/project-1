@@ -355,3 +355,7 @@ $(".step").click(function () {
     $("#" + itemId).focus();
     // #name-input, #date, #results-container
 });
+
+setTimeout(function(){
+    $('#splash').slideUp();
+}, 1500);
