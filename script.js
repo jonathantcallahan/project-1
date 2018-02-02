@@ -291,7 +291,7 @@ $(document).delegate(".user-button", "click", function () {
 
 //delete function
 $(document).delegate(".remove", "click", function () {
-    var thisButton = $(this).parent();//grabs the parent of the remove button, so that we can delete from DOM
+    var thisButton = $(this).parentsUntil(".stats-list");//grabs the parent of the remove button, so that we can delete from DOM
     var key = $(this).attr("key");//grabs key of the object we'll be deleting
     firebase.database().ref("user-storage/" + app.uid + "/" + key).remove();//deletes the object in Firebase
     thisButton.remove();//removes containing button from DOM
