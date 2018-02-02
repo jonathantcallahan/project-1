@@ -18,7 +18,7 @@ var uiConfig = {
         uiShown: function () {
             // The widget is rendered.
             // Hide the loader.
-            document.getElementById('loader').style.display = 'none';
+            // document.getElementById('loader').style.display = 'none';
         }
     },
     signInSuccessUrl: 'index.html',
@@ -67,8 +67,6 @@ initApp = function () {
             var phoneNumber = user.phoneNumber;
             var providerData = user.providerData;
             user.getIdToken().then(function (accessToken) {
-                document.getElementById('sign-in-status').textContent = 'Signed in';
-                document.getElementById('sign-in').textContent = 'Sign out';
                 document.getElementById('account-details').textContent = JSON.stringify({
                     displayName: displayName,
                     email: email,
@@ -82,9 +80,6 @@ initApp = function () {
             });
         } else {
             // User is signed out.
-            document.getElementById('sign-in-status').textContent = 'Signed out';
-            document.getElementById('sign-in').textContent = 'Sign in';
-            document.getElementById('account-details').textContent = 'null';
         }
     }, function (error) {
         console.log(error);
@@ -108,6 +103,24 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         var errorCode = error.code;
         var errorMessage = error.message;
     });
+
+//Button effects
+$("#name-input").change(function(){
+    console.log("testttticles")
+    $("#step-1").css("background-color","lightgreen")
+    setTimeout(e => {$("#step-1").slideUp()},2500)
+})
+
+$("#date").change(function(){
+    $("#step-2").css("background-color","lightgreen")
+    setTimout(e => {$("#step-2").slideUp()},2500)
+})
+
+$("results-container").change(function(){
+    $("#step-3").css("background-color","ligtgreen")
+    setTimeout(e => {$("#step-3").slideUp()},2500)
+})
+
 
 //Place for our API calls
 /***** object for our API calls *******/
@@ -230,9 +243,9 @@ var app = {
     //generates buttons onload
     populateButtons: function (snapshot) {
         var key = snapshot.key; //grabs the unique Firebase key associated with each name/dob entry
-        var p = $("<p>");
+        var p = $("<a>");
         var span = $("<span>").text("X").addClass("remove");
-        var div = $("<div>");
+        var div = $("<li>");
         span.attr("key", key);
         p.text(snapshot.val().name + " " + snapshot.val().dobMonth + "/" + snapshot.val().dobDay + "/" + snapshot.val().dobYear);
         p.attr("class", "user-button");
@@ -240,13 +253,15 @@ var app = {
         p.attr("day", snapshot.val().dobDay);
         p.attr("month", snapshot.val().dobMonth);
         p.attr("year", snapshot.val().dobYear);
-        div.append(p, span);
+        p.append(span);
+        div.append(p);
         $("#button-container").append(div);
     },
 
     //the following two functions deal with either inputting data to view content on the page, or viewing content for pre-existing users
     addNewName: function () {
         $("#results-container").empty();
+        $(".instructions").hide();
         app.userName = $("#name-input").val().trim();
         app.userDob = $("#date").val();
         app.userDobDay = app.userDob.substring(app.userDob.length - 2);
@@ -297,11 +312,20 @@ $(document).delegate(".user-button", "click", function () {
 
 //delete function
 $(document).delegate(".remove", "click", function () {
-    var thisButton = $(this).parent();//grabs the parent of the remove button, so that we can delete from DOM
+    clearTimeout(app.typeAnimationTimeout);
+    $("#results-container").empty();
+    var thisButton = $(this).parentsUntil(".stats-list");//grabs the parent of the remove button, so that we can delete from DOM
     var key = $(this).attr("key");//grabs key of the object we'll be deleting
     firebase.database().ref("user-storage/" + app.uid + "/" + key).remove();//deletes the object in Firebase
     thisButton.remove();//removes containing button from DOM
 });
+
+$(document).delegate(".hide", "click", function () {
+    var thisSection = $(this).parent();
+    thisSection.slideUp("fast", function () {
+        thisSection.hide();
+    });
+})
 
 // function when a user inputs name/dob 
 document.onkeydown = function () {
