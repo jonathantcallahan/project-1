@@ -101,6 +101,24 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
         var errorMessage = error.message;
     });
 
+//Button effects
+$("#name-input").change(function(){
+    console.log("testttticles")
+    $("#step-1").css("background-color","lightgreen")
+    setTimeout(e => {$("#step-1").slideUp()},2500)
+})
+
+$("#date").change(function(){
+    $("#step-2").css("background-color","lightgreen")
+    setTimout(e => {$("#step-2").slideUp()},2500)
+})
+
+$("results-container").change(function(){
+    $("#step-3").css("background-color","ligtgreen")
+    setTimeout(e => {$("#step-3").slideUp()},2500)
+})
+
+
 //Place for our API calls
 /***** object for our API calls *******/
 var api = {
@@ -291,6 +309,8 @@ $(document).delegate(".user-button", "click", function () {
 
 //delete function
 $(document).delegate(".remove", "click", function () {
+    clearTimeout(app.typeAnimationTimeout);
+    $("#results-container").empty();
     var thisButton = $(this).parentsUntil(".stats-list");//grabs the parent of the remove button, so that we can delete from DOM
     var key = $(this).attr("key");//grabs key of the object we'll be deleting
     firebase.database().ref("user-storage/" + app.uid + "/" + key).remove();//deletes the object in Firebase
