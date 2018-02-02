@@ -336,7 +336,7 @@ $("#search").click(function () {
     var that = $(this);
     app.clickButton(that);
 });
-
+//logout button function
 $("#logout").click(function () {
     firebase.auth().signOut().then(function () {
         location.reload();
@@ -344,4 +344,11 @@ $("#logout").click(function () {
     }).catch(function (error) {
         // An error happened.
     });
+});
+// on click for the 3 steps, pulls focus onto the appropriate input bars
+$(".step").click(function () {
+    console.log($(this).attr("value"));
+    var itemId = $(this).attr("value");
+    $("#" + itemId).focus();
+    // #name-input, #date, #results-container
 });
