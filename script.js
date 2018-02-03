@@ -144,9 +144,13 @@ var api = {
                 console.log(imgUrl);
                 var img = $("<img>")
                 var div = $("<div>")
-                div.text("Shown Below is an Image Takent the Year You Were Born:");
+                var p = $("<p>")
+                p.css("background-color","darkgray").css("color","white").css("font-weight","bold").css("border-radius","3px").css("padding","5px").css("font-size","22px")
+                p.text("Shown Below is an Image Taken the Year You Were Born:");
+                div.append(p)
                 div.append(img)
                 img.attr("src",imgUrl)
+                img.css("max-width","100%")
                 $("#randomimg").html(div)
             }
             else (console.log("No Flickr Response"));
