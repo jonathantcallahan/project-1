@@ -298,6 +298,24 @@ var app = {
                 console.log("Unable to retreive data");
             }
         )
+    },
+    splashCheck: function(){
+        if (localStorage.getItem("key")) {
+            var userTimestamp = JSON.parse(localStorage.getItem("key"))
+            var localObj = {
+                timestamp: new Date().getTime()
+            }
+            localStorage.setItem("key", JSON.stringify(localObj));
+            if (localObj.timestamp - userTimestamp.timestamp < 1800000) {
+                $(splash).hide();
+            };
+        }
+        else {
+            var localObj = {
+                timestamp: new Date().getTime()
+            }
+            localStorage.setItem("key", JSON.stringify(localObj));
+        }
     }
 }; //end app object
 
@@ -357,22 +375,7 @@ $(".step").click(function () {
 
 //displays splash page for the first time every 30 minutes
 
-if (localStorage.getItem("key")) {
-    var userTimestamp = JSON.parse(localStorage.getItem("key"))
-    var localObj = {
-        timestamp: new Date().getTime()
-    }
-    localStorage.setItem("key", JSON.stringify(localObj));
-    if (localObj.timestamp - userTimestamp.timestamp < 1800000) {
-        $(splash).hide();
-    };
-}
-else {
-    var localObj = {
-        timestamp: new Date().getTime()
-    }
-    localStorage.setItem("key", JSON.stringify(localObj));
-}
+app.splashCheck();
 
 setTimeout(function(){
     $('#splash').slideUp();
