@@ -356,16 +356,22 @@ $(".step").click(function () {
 });
 
 //displays splash page for the first time every 30 minutes
-var localObj = {
-    timestamp: new Date().getTime()
-}
-localStorage.setItem("key", JSON.stringify(localObj));
 
 if (localStorage.getItem("key")) {
     var userTimestamp = JSON.parse(localStorage.getItem("key"))
+    var localObj = {
+        timestamp: new Date().getTime()
+    }
+    localStorage.setItem("key", JSON.stringify(localObj));
     if (localObj.timestamp - userTimestamp.timestamp < 1800000) {
         $(splash).hide();
     };
+}
+else {
+    var localObj = {
+        timestamp: new Date().getTime()
+    }
+    localStorage.setItem("key", JSON.stringify(localObj));
 }
 
 setTimeout(function(){
