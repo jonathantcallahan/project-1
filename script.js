@@ -300,23 +300,26 @@ var app = {
         )
     },
     splashCheck: function(){
-        if (localStorage.getItem("key")) {
+        if (!localStorage.getItem("key")) {
+            console.log("now key")
+            $("#splash").show();
+            var localObj = {
+                timestamp: new Date().getTime()
+            }
+            localStorage.setItem("key", JSON.stringify(localObj));
+        }
+        else {
             var userTimestamp = JSON.parse(localStorage.getItem("key"))
             var localObj = {
                 timestamp: new Date().getTime()
             }
             localStorage.setItem("key", JSON.stringify(localObj));
-            if (localObj.timestamp - userTimestamp.timestamp < 1800000) {
-                $(splash).hide();
+            if (localObj.timestamp - userTimestamp.timestamp > 1800000) {
+                $("#splash").show();
+                console.log(localObj.timestamp - userTimestamp.timestamp)
             };
-        }
-        else {
-            var localObj = {
-                timestamp: new Date().getTime()
-            }
-            localStorage.setItem("key", JSON.stringify(localObj));
-        }
-    }
+         };
+     }
 }; //end app object
 
 /************* Event listeners    *************/
