@@ -5,7 +5,8 @@ var userStorage = firebase.database().ref("user-storage/notloggedin")
 
 // The following code is for firebase authentication/login
 var provider = new firebase.auth.GithubAuthProvider();
-
+var flickrkey = "06754dedbd868eeeae9f5f3bc1416e7d";
+var flickrSecret = "79e261fdb08aa9ad";
 // FirebaseUI config.
 var uiConfig = {
     callbacks: {
@@ -124,6 +125,15 @@ $("results-container").change(function(){
 //Place for our API calls
 /***** object for our API calls *******/
 var api = {
+    callFlickr: function(){
+        var queryUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=37ae86d629a2e4a62917253419cb9e94&text=" + app.userName + "&safe_search=&format=rest&api_sig=1d4b064e05e22ea8de85aafa9cb2cde8"
+        $.ajax({
+            url: queryUrl,
+            method: "GET"
+        }).done(function(response){
+            console.log(response)
+        })
+    },
     callNameAPI: function () {
         app.textTwoAdded = false;
         app.textTwo = "";
@@ -171,6 +181,7 @@ var api = {
             app.letterCount = 0; //resets the letter count for our "loop" when we run typeAnimation
             app.fullMessage = ("Hi " + app.userName + ", on the day you were born, in the year " + app.yearOccur + ":  " + app.text)
             app.typeAnimation();
+            app.callFlickr();
         })
     },
     callNumbers: function () {
