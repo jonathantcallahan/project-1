@@ -125,13 +125,31 @@ $("results-container").change(function(){
 //Place for our API calls
 /***** object for our API calls *******/
 var api = {
+    search: "",
     callFlickr: function(){
-        var queryUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=37ae86d629a2e4a62917253419cb9e94&text=" + app.userName + "&safe_search=&format=rest&api_sig=1d4b064e05e22ea8de85aafa9cb2cde8"
+        var flickrkey = "06754dedbd868eeeae9f5f3bc1416e7d";
+        var flickrSecret = "79e261fdb08aa9ad";
+        var text = api.search;
         $.ajax({
-            url: queryUrl,
+            url: "https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&date_taken="+ app.userDobYear + "&api_key=" + flickrkey + "&per_page=1&format=json&nojsoncallback=1&safe_search=1",
             method: "GET"
-        }).done(function(response){
-            console.log(response)
+        }).done(function (response) {
+            if (response) {
+                var obj = response.photos.photo[0];
+                var farmID = obj.farm;
+                var serverID = obj.server;
+                var id = obj.id;
+                var secret = obj.secret;
+                var imgUrl = "https://farm" + farmID + ".staticflickr.com/" + serverID + "/" + id + "_" + secret + ".jpg"
+                console.log(imgUrl);
+                var img = $("<img>")
+                var div = $("<div>")
+                div.text("Shown Below is an Image Takent the Year You Were Born:");
+                div.append(img)
+                img.attr("src",imgUrl)
+                $("#randomimg").html(div)
+            }
+            else (console.log("No Flickr Response"));
         })
     },
     callNameAPI: function () {
@@ -171,6 +189,7 @@ var api = {
             app.yearOccur = returnInfo.data.Events[x].year; //some responses arrive with a term proceded by a colon and text. This removes the colon and preceding term
             if (app.text.indexOf(":") > -1) {
                 app.text = app.text.split(":");
+                api.search = app.text[0];
                 app.text = app.text[1];
             }
             //Typing animation
@@ -181,7 +200,7 @@ var api = {
             app.letterCount = 0; //resets the letter count for our "loop" when we run typeAnimation
             app.fullMessage = ("Hi " + app.userName + ", on the day you were born, in the year " + app.yearOccur + ":  " + app.text)
             app.typeAnimation();
-            app.callFlickr();
+            api.callFlickr();
         })
     },
     callNumbers: function () {
